@@ -1,6 +1,7 @@
 package su.piskun.exlib.spring;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,6 +43,25 @@ public class ExHandlerTest {
         // Then.
         assertThat(responseEntity.getBody()).isEqualTo(expectedExDto);
         assertThat(responseEntity.getStatusCode().value()).isEqualTo(exception.getStatusCode());
+
+        verify(this.mapper).map(exception);
+        verifyNoMoreInteractions(this.mapper);
+    }
+
+    @Test
+    public void handle() {
+        // Given.
+        Exception exception = new RuntimeException();
+
+        final ExDto expectedExDto = ExDto.builder().build();
+        given(this.mapper.map(exception)).willReturn(expectedExDto);
+
+        // When.
+        ResponseEntity<ExDto> responseEntity = sut.handle(exception);
+
+        // Then.
+        assertThat(responseEntity.getBody()).isEqualTo(expectedExDto);
+        assertThat(responseEntity.getStatusCode().value()).isEqualTo(HttpEx.INTERNAL_SERVER_ERROR);
 
         verify(this.mapper).map(exception);
         verifyNoMoreInteractions(this.mapper);

@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import su.piskun.exlib.core.Ex;
 import su.piskun.exlib.core.HttpEx;
 
 @ControllerAdvice
@@ -21,8 +20,8 @@ public class ExHandler {
     }
 
     @ResponseBody
-    @ExceptionHandler(Ex.class)
-    public <E extends Ex> ResponseEntity<ExDto> handle(E e) {
+    @ExceptionHandler
+    public ResponseEntity<ExDto> handle(Exception e) {
         ExDto exDto = this.mapper.map(e);
         int status = e instanceof HttpEx http ? http.getStatusCode() : HttpEx.INTERNAL_SERVER_ERROR;
 
@@ -31,7 +30,7 @@ public class ExHandler {
         return ResponseEntity.status(status).body(exDto);
     }
 
-    private static void log(Ex e) {
+    private static void log(Exception e) {
         if (LOG.isTraceEnabled()) {
             e.printStackTrace();
         } else {
