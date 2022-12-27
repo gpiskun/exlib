@@ -2,6 +2,7 @@ package su.piskun.exlib.spring;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import su.piskun.exlib.core.Ex;
 
 import java.time.Instant;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class ExDto {
     public ExDto(Builder builder) {
         this.id = builder.id;
         this.timestamp = builder.timestamp;
-        this.code = builder.code;
+        this.code = builder.code != null ? builder.code : Ex.DEFAULT_CODE;
         this.context = Optional.ofNullable(builder.context).map(Map::copyOf).orElse(null);
         this.message = builder.message;
     }
