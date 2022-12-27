@@ -6,11 +6,11 @@
     <parent>
         <artifactId>exlib</artifactId>
         <groupId>su.piskun.exlib</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
 
     <artifactId>core</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>exlib core classes</description>
